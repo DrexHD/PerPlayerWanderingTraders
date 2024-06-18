@@ -9,10 +9,6 @@ plugins {
 version = "${mod_version}+${minecraft_version}"
 group = project.maven_group
 
-base {
-	archivesName = project.archives_base_name
-}
-
 repositories {
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
@@ -78,8 +74,6 @@ publishMods {
 		repository = providers.environmentVariable("GITHUB_REPOSITORY").getOrElse("DrexHD/dryrun")
 		commitish = providers.environmentVariable("GITHUB_REF_NAME").getOrElse("dryrun")
 	}
-	dryRun = true
-
 }
 
 private String fetchChangelog() {
