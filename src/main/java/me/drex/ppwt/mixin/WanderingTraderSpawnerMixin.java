@@ -20,7 +20,7 @@ public abstract class WanderingTraderSpawnerMixin {
     )
     private ServerPlayer usePlayerArgument(ServerLevel level) {
         ServerPlayer serverPlayer = PerPlayerWanderingTraders.PLAYER_ARG.get();
-        if (serverPlayer.serverLevel().equals(level)) {
+        if (serverPlayer != null && serverPlayer.serverLevel().equals(level)) {
             return serverPlayer;
         }
         return null;
