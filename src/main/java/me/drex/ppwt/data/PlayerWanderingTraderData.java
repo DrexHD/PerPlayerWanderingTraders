@@ -117,7 +117,7 @@ public class PlayerWanderingTraderData implements ServerLevelData {
     }
 
     @Override
-    public boolean isAllowCommands() {
+    public boolean getAllowCommands() {
         throw new UnsupportedOperationException();
     }
 
@@ -142,12 +142,42 @@ public class PlayerWanderingTraderData implements ServerLevelData {
     }
 
     @Override
+    public void setXSpawn(int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setYSpawn(int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setZSpawn(int i) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void setSpawnAngle(float f) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public void setSpawn(BlockPos blockPos, float f) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public BlockPos getSpawnPos() {
+    public int getXSpawn() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getYSpawn() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int getZSpawn() {
         throw new UnsupportedOperationException();
     }
 

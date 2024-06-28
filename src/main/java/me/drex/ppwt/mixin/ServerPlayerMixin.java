@@ -5,7 +5,6 @@ import me.drex.ppwt.data.PlayerWanderingTraderData;
 import me.drex.ppwt.util.IServerPlayer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.npc.WanderingTraderSpawner;
@@ -28,7 +27,7 @@ public class ServerPlayerMixin implements IServerPlayer {
     private static final String NBT_KEY = "per_player_wandering_traders";
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    private void addWanderingTraderSpawner(MinecraftServer minecraftServer, ServerLevel serverLevel, GameProfile gameProfile, ClientInformation clientInformation, CallbackInfo ci) {
+    private void addWanderingTraderSpawner(MinecraftServer minecraftServer, ServerLevel serverLevel, GameProfile gameProfile, CallbackInfo ci) {
         this.wanderingTraderData = new PlayerWanderingTraderData();
         this.wanderingTraderSpawner = new WanderingTraderSpawner(wanderingTraderData);
     }
