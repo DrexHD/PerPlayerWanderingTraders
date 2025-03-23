@@ -40,9 +40,7 @@ public class ServerPlayerMixin implements IServerPlayer {
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
     private void loadWanderingTraderData(CompoundTag compoundTag, CallbackInfo ci) {
-        if (compoundTag.contains(NBT_KEY)) {
-            wanderingTraderData.loadFromTag(compoundTag.getCompound(NBT_KEY));
-        }
+        compoundTag.getCompound(NBT_KEY).ifPresent(tag -> wanderingTraderData.loadFromTag(tag));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At(value = "RETURN"))

@@ -1,8 +1,8 @@
 import org.jetbrains.changelog.Changelog
 
 plugins {
-	id 'fabric-loom' version '1.6-SNAPSHOT'
-	id "me.modmuss50.mod-publish-plugin" version "0.+"
+	id 'fabric-loom' version '1.10-SNAPSHOT'
+	id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 	id 'org.jetbrains.changelog' version '2.+'
 }
 
@@ -33,7 +33,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 17
+	it.options.release = 21
 }
 
 java {
@@ -42,8 +42,8 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 }
 
 jar {
@@ -67,7 +67,7 @@ publishMods {
 	curseforge {
 		projectId = "1039087"
 		accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
-		minecraftVersions.add(project.minecraft_version)
+		minecraftVersions.add(project.curseforge_minecraft_version)
 	}
 	github {
 		accessToken = providers.environmentVariable("GITHUB_TOKEN")

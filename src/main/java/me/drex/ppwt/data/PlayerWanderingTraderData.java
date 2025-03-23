@@ -1,6 +1,7 @@
 package me.drex.ppwt.data;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Difficulty;
@@ -206,17 +207,17 @@ public class PlayerWanderingTraderData implements ServerLevelData {
         compoundTag.putInt("WanderingTraderSpawnDelay", this.wanderingTraderSpawnDelay);
         compoundTag.putInt("WanderingTraderSpawnChance", this.wanderingTraderSpawnChance);
         if (this.wanderingTraderId != null) {
-            compoundTag.putUUID("WanderingTraderId", this.wanderingTraderId);
+            compoundTag.store("WanderingTraderId", UUIDUtil.CODEC, this.wanderingTraderId);
         }
         return compoundTag;
     }
 
     public void loadFromTag(CompoundTag compoundTag) {
-        this.wanderingTraderSpawnDelay = compoundTag.getInt("WanderingTraderSpawnDelay");
-        this.wanderingTraderSpawnChance = compoundTag.getInt("WanderingTraderSpawnChance");
+        this.wanderingTraderSpawnDelay = compoundTag.getIntOr("WanderingTraderSpawnDelay", 0);
+        this.wanderingTraderSpawnChance = compoundTag.getIntOr("WanderingTraderSpawnChance", 0);
         compoundTag.putInt("WanderingTraderSpawnChance", this.wanderingTraderSpawnChance);
-        if (compoundTag.contains("WanderingTraderId")) {
-            this.wanderingTraderId = compoundTag.getUUID("WanderingTraderId");
-        }
+        compoundTag.read("WanderingTraderId", UUIDUtil.CODEC).ifPresent(uuid -> {
+            this.wanderingTraderId = uuid;
+        });
     }
 }
