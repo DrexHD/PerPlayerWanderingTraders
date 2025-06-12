@@ -3,12 +3,13 @@ package me.drex.ppwt.mixin;
 import com.mojang.authlib.GameProfile;
 import me.drex.ppwt.data.PlayerWanderingTraderData;
 import me.drex.ppwt.util.IServerPlayer;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.npc.WanderingTraderSpawner;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,13 +40,13 @@ public class ServerPlayerMixin implements IServerPlayer {
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
-    private void loadWanderingTraderData(CompoundTag compoundTag, CallbackInfo ci) {
-        compoundTag.getCompound(NBT_KEY).ifPresent(tag -> wanderingTraderData.loadFromTag(tag));
+    private void loadWanderingTraderData(ValueInput valueInput, CallbackInfo ci) {
+        valueInput.child(NBT_KEY).ifPresent(child -> wanderingTraderData.loadData(child));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At(value = "RETURN"))
-    private void saveWanderingTraderData(CompoundTag compoundTag, CallbackInfo ci) {
-        compoundTag.put(NBT_KEY, wanderingTraderData.createTag());
+    private void saveWanderingTraderData(ValueOutput valueOutput, CallbackInfo ci) {
+        wanderingTraderData.saveData(valueOutput.child(NBT_KEY));
     }
 
 }

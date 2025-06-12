@@ -2,13 +2,14 @@ package me.drex.ppwt.data;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.storage.ServerLevelData;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.timers.TimerQueue;
 import org.jetbrains.annotations.Nullable;
 
@@ -202,21 +203,18 @@ public class PlayerWanderingTraderData implements ServerLevelData {
         throw new UnsupportedOperationException();
     }
 
-    public CompoundTag createTag() {
-        CompoundTag compoundTag = new CompoundTag();
-        compoundTag.putInt("WanderingTraderSpawnDelay", this.wanderingTraderSpawnDelay);
-        compoundTag.putInt("WanderingTraderSpawnChance", this.wanderingTraderSpawnChance);
+    public void saveData(ValueOutput valueOutput) {
+        valueOutput.putInt("WanderingTraderSpawnDelay", this.wanderingTraderSpawnDelay);
+        valueOutput.putInt("WanderingTraderSpawnChance", this.wanderingTraderSpawnChance);
         if (this.wanderingTraderId != null) {
-            compoundTag.store("WanderingTraderId", UUIDUtil.CODEC, this.wanderingTraderId);
+            valueOutput.store("WanderingTraderId", UUIDUtil.CODEC, this.wanderingTraderId);
         }
-        return compoundTag;
     }
 
-    public void loadFromTag(CompoundTag compoundTag) {
-        this.wanderingTraderSpawnDelay = compoundTag.getIntOr("WanderingTraderSpawnDelay", 0);
-        this.wanderingTraderSpawnChance = compoundTag.getIntOr("WanderingTraderSpawnChance", 0);
-        compoundTag.putInt("WanderingTraderSpawnChance", this.wanderingTraderSpawnChance);
-        compoundTag.read("WanderingTraderId", UUIDUtil.CODEC).ifPresent(uuid -> {
+    public void loadData(ValueInput valueInput) {
+        this.wanderingTraderSpawnDelay = valueInput.getIntOr("WanderingTraderSpawnDelay", 0);
+        this.wanderingTraderSpawnChance = valueInput.getIntOr("WanderingTraderSpawnChance", 0);
+        valueInput.read("WanderingTraderId", UUIDUtil.CODEC).ifPresent(uuid -> {
             this.wanderingTraderId = uuid;
         });
     }
