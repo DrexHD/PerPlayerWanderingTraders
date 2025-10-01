@@ -1,6 +1,5 @@
 package me.drex.ppwt.data;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Difficulty;
@@ -13,6 +12,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.timers.TimerQueue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class PlayerWanderingTraderData implements ServerLevelData {
@@ -99,12 +99,12 @@ public class PlayerWanderingTraderData implements ServerLevelData {
     }
 
     @Override
-    public void setWorldBorder(WorldBorder.Settings settings) {
+    public Optional<WorldBorder.Settings> getLegacyWorldBorderSettings() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public WorldBorder.Settings getWorldBorder() {
+    public void setLegacyWorldBorderSettings(Optional<WorldBorder.Settings> optional) {
         throw new UnsupportedOperationException();
     }
 
@@ -144,17 +144,7 @@ public class PlayerWanderingTraderData implements ServerLevelData {
     }
 
     @Override
-    public void setSpawn(BlockPos blockPos, float f) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public BlockPos getSpawnPos() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public float getSpawnAngle() {
+    public RespawnData getRespawnData() {
         throw new UnsupportedOperationException();
     }
 
@@ -217,5 +207,10 @@ public class PlayerWanderingTraderData implements ServerLevelData {
         valueInput.read("WanderingTraderId", UUIDUtil.CODEC).ifPresent(uuid -> {
             this.wanderingTraderId = uuid;
         });
+    }
+
+    @Override
+    public void setSpawn(RespawnData respawnData) {
+        throw new UnsupportedOperationException();
     }
 }

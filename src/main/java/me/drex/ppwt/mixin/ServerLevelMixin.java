@@ -21,12 +21,12 @@ public abstract class ServerLevelMixin {
     List<ServerPlayer> players;
 
     @Inject(method = "tickCustomSpawners", at = @At("RETURN"))
-    private void tickPerPlayerWanderingTradeSpawner(boolean spawnEnemies, boolean spawnFriendlies, CallbackInfo ci) {
+    private void tickPerPlayerWanderingTradeSpawner(boolean bl, CallbackInfo ci) {
         for (ServerPlayer player : this.players) {
             var previous = PerPlayerWanderingTraders.PLAYER_ARG.get();
             PerPlayerWanderingTraders.PLAYER_ARG.set(player);
             try {
-                ((IServerPlayer) player).perPlayerWanderingTraders$getWanderingTraderSpawner().tick((ServerLevel) (Object) this, spawnEnemies, spawnFriendlies);
+                ((IServerPlayer) player).perPlayerWanderingTraders$getWanderingTraderSpawner().tick((ServerLevel) (Object) this, bl);
             } finally {
                 PerPlayerWanderingTraders.PLAYER_ARG.set(previous);
             }
