@@ -3,9 +3,9 @@ package me.drex.ppwt.data;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -144,6 +144,11 @@ public class PlayerWanderingTraderData implements ServerLevelData {
     }
 
     @Override
+    public GameRules getGameRules() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public RespawnData getRespawnData() {
         throw new UnsupportedOperationException();
     }
@@ -175,11 +180,6 @@ public class PlayerWanderingTraderData implements ServerLevelData {
 
     @Override
     public boolean isHardcore() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public GameRules getGameRules() {
         throw new UnsupportedOperationException();
     }
 
