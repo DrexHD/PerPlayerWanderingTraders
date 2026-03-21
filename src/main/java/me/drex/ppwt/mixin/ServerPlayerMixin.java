@@ -1,13 +1,14 @@
 package me.drex.ppwt.mixin;
 
 import com.mojang.authlib.GameProfile;
-import me.drex.ppwt.data.PlayerWanderingTraderData;
+import me.drex.ppwt.data.PlayerWanderingTraderSpawner;
 import me.drex.ppwt.util.IServerPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.npc.wanderingtrader.WanderingTraderSpawner;
+import net.minecraft.world.level.saveddata.WanderingTraderData;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,19 +21,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerPlayerMixin implements IServerPlayer {
 
     @Unique
-    private WanderingTraderSpawner wanderingTraderSpawner;
+    private WanderingTraderData wanderingTraderData = new WanderingTraderData();
 
     @Unique
-    private PlayerWanderingTraderData wanderingTraderData;
+    private final WanderingTraderSpawner wanderingTraderSpawner = new PlayerWanderingTraderSpawner();
 
     @Unique
     private static final String NBT_KEY = "per_player_wandering_traders";
-
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void addWanderingTraderSpawner(MinecraftServer minecraftServer, ServerLevel serverLevel, GameProfile gameProfile, ClientInformation clientInformation, CallbackInfo ci) {
-        this.wanderingTraderData = new PlayerWanderingTraderData();
-        this.wanderingTraderSpawner = new WanderingTraderSpawner(wanderingTraderData);
-    }
 
     @Override
     public WanderingTraderSpawner perPlayerWanderingTraders$getWanderingTraderSpawner() {
@@ -41,12 +36,13 @@ public class ServerPlayerMixin implements IServerPlayer {
 
     @Inject(method = "readAdditionalSaveData", at = @At("RETURN"))
     private void loadWanderingTraderData(ValueInput valueInput, CallbackInfo ci) {
-        valueInput.child(NBT_KEY).ifPresent(child -> wanderingTraderData.loadData(child));
+        valueInput.read(NBT_KEY, WanderingTraderData.CODEC).ifPresent(data -> this.wanderingTraderData = data);
+        ((WanderingTraderSpawnerAccessor) this.wanderingTraderSpawner).setTraderData(wanderingTraderData);
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At(value = "RETURN"))
     private void saveWanderingTraderData(ValueOutput valueOutput, CallbackInfo ci) {
-        wanderingTraderData.saveData(valueOutput.child(NBT_KEY));
+        valueOutput.store(NBT_KEY, WanderingTraderData.CODEC, wanderingTraderData);
     }
 
 }
