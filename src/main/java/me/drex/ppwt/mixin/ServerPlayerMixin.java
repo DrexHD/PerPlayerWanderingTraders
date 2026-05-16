@@ -1,11 +1,7 @@
 package me.drex.ppwt.mixin;
 
-import com.mojang.authlib.GameProfile;
 import me.drex.ppwt.data.PlayerWanderingTraderSpawner;
 import me.drex.ppwt.util.IServerPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ClientInformation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.npc.wanderingtrader.WanderingTraderSpawner;
 import net.minecraft.world.level.saveddata.WanderingTraderData;
